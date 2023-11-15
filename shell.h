@@ -20,16 +20,17 @@
 /************* STRUCTURES **************/
 
 /**
- * struct info- struct for the program's data
- * @program_name: the name of the executable
- * @input_line: pointer to the input read for _getline
- * @command_name: pointer to the first command typed by the user
- * @exec_counter: number of excecuted comands
- * @file_descriptor: file descriptor to the input of commands
- * @tokens: pointer to array of tokenized input
- * @env: copy of the environ
- * @alias_list: array of pointers with aliases.
+ * struct info - information holder for the program
+ * @program_name: the identifier for the executable file
+ * @input_line: reference to the input retrieved using _getline
+ * @command_name: reference to the first command entered by the user
+ * @exec_counter: count of executed commands
+ * @file_descriptor: file descriptor linked to the command input
+ * @tokens: array reference holding tokenized input elements
+ * @env: replicated environment variables set
+ * @alias_list: array containing pointers to aliases
  */
+
 typedef struct info
 {
 	char *program_name;
@@ -44,7 +45,7 @@ typedef struct info
 
 /**
  * struct builtins - struct for the builtins
- * @builtin: the name of the builtin
+ * @builtin: name for the builtin
  * @function: the associated function to be called for each builtin
  */
 typedef struct builtins
@@ -90,7 +91,7 @@ void expand_alias(data_of_program *data);
 int buffer_add(char *buffer, char *str_to_add);
 
 
-/*======== str_tok.c ========*/
+/*======== str_token.c ========*/
 
 /* Separate the string in tokens using a designed delimiter */
 void tokenize(data_of_program *data);
@@ -123,7 +124,7 @@ int find_program(data_of_program *data);
 /************** HELPERS FOR MEMORY MANAGEMENT **************/
 
 
-/*======== helpers_free.c ========*/
+/*======== helper_1.c ========*/
 
 /* Frees the memory for directories */
 void free_array_of_pointers(char **directories);
@@ -140,7 +141,7 @@ void free_all_data(data_of_program *data);
 
 /*======== builtins_more.c ========*/
 
-/* Close the shell */
+/* Closes the shell */
 int builtin_exit(data_of_program *data);
 
 /* Change the current directory */
@@ -171,7 +172,7 @@ int builtin_unset_env(data_of_program *data);
 /************** HELPERS FOR ENVIRONMENT VARIABLES MANAGEMENT **************/
 
 
-/*======== env_management.c ========*/
+/*======== env_man.c ========*/
 
 /* Gets the value of an environment variable */
 char *env_get_key(char *name, data_of_program *data);
@@ -189,7 +190,7 @@ void print_environ(data_of_program *data);
 /************** HELPERS FOR PRINTING **************/
 
 
-/*======== helpers_print.c ========*/
+/*======== helper_p.c ========*/
 
 /* Prints a string in the standar output */
 int _print(char *string);
@@ -204,7 +205,7 @@ int _print_error(int errorcode, data_of_program *data);
 /************** HELPERS FOR STRINGS MANAGEMENT **************/
 
 
-/*======== helpers_string.c ========*/
+/*======== helper_str.c ========*/
 
 /* Counts the number of characters of a string */
 int str_length(char *string);
@@ -222,21 +223,21 @@ char *str_concat(char *string1, char *string2);
 void str_reverse(char *string);
 
 
-/*======== helpers_numbers.c ========*/
+/*======== helper_numb.c ========*/
 
-/* Cast from int to string */
+/* Cast from integer to string */
 void long_to_string(long number, char *string, int base);
 
-/* convert an string in to a number */
+/* convert a string in to a number */
 int _atoi(char *s);
 
-/* count the coincidences of character in string */
+/* Calculate the frequency of each character in a given string */
 int count_characters(char *string, char *character);
 
 
-/*======== alias_management.c ========*/
+/*======== alias_man.c ========*/
 
-/* print the list of alias */
+/* print the listS of alias */
 int print_alias(data_of_program *data, char *alias);
 
 /* get the alias name */
