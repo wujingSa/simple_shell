@@ -47,7 +47,7 @@ char *_strcpy(char *dest, char *src)
  * _strcmp - Compare two strings.
  * @s1: First string.
  * @s2: Second string.
- * Return: 0 if the strings are equal, positive if s1 is greater, negative if s2 is greater.
+ * Return: 0 if the strings are equal.
  */
 int _strcmp(char *s1, char *s2)
 {
@@ -67,7 +67,7 @@ int _strcmp(char *s1, char *s2)
  * _strchr - Locate a character in a string.
  * @s: Input string.
  * @c: Character to locate.
- * Return: Pointer to the first occurrence of the character c, or NULL if not found.
+ * Return: Pointer to the first occurrence of the char c, NULL if not found.
  */
 char *_strchr(char *s, char c)
 {

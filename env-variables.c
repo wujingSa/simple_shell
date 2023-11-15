@@ -4,7 +4,7 @@
  * cmp_env_name - Compares environment variable names with the given name.
  * @nenv: Name of the environment variable.
  * @name: Name to compare.
- * Return: 0 if the names are not equal, otherwise, returns the length of the match.
+ * Return: 0 if the names are not equal, else, returns the length of the match.
  */
 int cmp_env_name(const char *nenv, const char *name)
 {
@@ -25,7 +25,7 @@ int cmp_env_name(const char *nenv, const char *name)
  * _getenv - Gets the value of an environment variable.
  * @name: Name of the environment variable.
  * @_environ: Environment variable array.
- * Return: The value of the environment variable if found, otherwise, returns NULL.
+ * Return: The value of the environment var if found, else, returns NULL.
  */
 char *_getenv(const char *name, char **_environ)
 {

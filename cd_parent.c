@@ -1,7 +1,7 @@
 #include "main.h"
 
 /**
- * cd_dot - Changes the current working directory to the parent directory.
+ * cd_dot - Changes the current working dir to the parent directory.
  * @datash: Data relevant to the shell environment.
  * Return: No return value.
  */
@@ -50,7 +50,7 @@ void cd_dot(data_shell *datash)
 }
 
 /**
- * cd_to - Changes the current working directory to the specified directory.
+ * cd_to - Changes the current working dir to the specified directory.
  * @datash: Data relevant to the shell environment.
  * Return: No return value.
  */
@@ -83,7 +83,7 @@ void cd_to(data_shell *datash)
 }
 
 /**
- * cd_previous - Changes the current working directory to the previous directory.
+ * cd_previous - Changes the current working dir to the previous directory.
  * @datash: Data relevant to the shell environment.
  * Return: No return value.
  */
@@ -124,7 +124,7 @@ void cd_previous(data_shell *datash)
 }
 
 /**
- * cd_to_home - Changes the current working directory to the home directory.
+ * cd_to_home - Changes the current working dir to the home directory.
  * @datash: Data relevant to the shell environment.
  * Return: No return value.
  */
@@ -157,4 +157,3 @@ void cd_to_home(data_shell *datash)
 	free(p_pwd);
 	datash->status = 0;
 }
-
