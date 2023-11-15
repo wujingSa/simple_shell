@@ -60,14 +60,14 @@ typedef struct builtins
 
 /*========  shell.c  ========*/
 
-/* Inicialize the struct with the info of the program */
-void inicialize_data(data_of_program *data, int arc, char *argv[], char **env);
+/* Initialize the struct with the info of the program */
+void initialize_data(data_of_program *data, int arc, char *argv[], char **env);
 
 /* Makes the infinite loop that shows the prompt*/
 void sisifo(char *prompt, data_of_program *data);
 
 /* Print the prompt in a new line */
-void handle_ctrl_c(int opr UNUSED);
+void handle_ctrl_c(int opr);
 
 
 /*========  _getline.c  ========*/

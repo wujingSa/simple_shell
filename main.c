@@ -1,25 +1,24 @@
 #include "shell.h"
 
 /**
- * main - Initializes program variables and processes command line inputs
- * @argc: Number of arguments passed through the command line
- * @argv: Array of strings containing the command line arguments
- * @env: Array of strings containing the environment variables
- * Return: Returns zero upon successful execution
+ * main - Initialize the variables of the program
+ * @argc: Number of values received from the command line
+ * @argv: Values received from the command line
+ * @env: Number of values received from the command line
+ * Return: Zero on success
  */
-
 int main(int argc, char *argv[], char *env[])
 {
 	data_of_program data_struct = {NULL}, *data = &data_struct;
 	char *prompt = "";
 
-	inicialize_data(data, argc, argv, env);
+	initialize_data(data, argc, argv, env);
 
 	signal(SIGINT, handle_ctrl_c);
 
 	if (isatty(STDIN_FILENO) && isatty(STDOUT_FILENO) && argc == 1)
-	{/* We are in interactive mode in the webterm */
-		errno = 2;/*???????*/
+	{
+		errno = ENOENT;
 		prompt = PROMPT_MSG;
 	}
 	errno = 0;
@@ -28,26 +27,23 @@ int main(int argc, char *argv[], char *env[])
 }
 
 /**
- * handle_ctrl_c - Reacts to the SIGINT signal (ctrl + c) by ensuring
- * the prompt is displayed on a new line.
- * @UNUSED: Unused parameter in the function prototype
+ * handle_ctrl_c - Print the prompt in a new line when the signal SIGINT
+ * @opr: Option of the prototype
  */
-
-void handle_ctrl_c(int opr UNUSED)
+void handle_ctrl_c(int opr)
 {
 	_print("\n");
 	_print(PROMPT_MSG);
 }
 
 /**
- * inicialize_data - sets up the structure with program information
- * @data: pointer to the data structure
- * @argv: array of arguments passed during program execution
- * @env: environment variables passed during program execution
- * @argc: count of values received from the command line
+ * initialize_data - Initialize the struct with the info of the program
+ * @data: Pointer to the structure of data
+ * @argv: Array of arguments passed to the program execution
+ * @env: Environ passed to the program execution
+ * @argc: Number of values received from the command line
  */
-
-void inicialize_data(data_of_program *data, int argc, char *argv[], char **env)
+void initialize_data(data_of_program *data, int argc, char *argv[], char **env)
 {
 	int i = 0;
 
@@ -55,7 +51,7 @@ void inicialize_data(data_of_program *data, int argc, char *argv[], char **env)
 	data->input_line = NULL;
 	data->command_name = NULL;
 	data->exec_counter = 0;
-	/* define the file descriptor to be read */
+
 	if (argc == 1)
 		data->file_descriptor = STDIN_FILENO;
 	else
@@ -63,11 +59,11 @@ void inicialize_data(data_of_program *data, int argc, char *argv[], char **env)
 		data->file_descriptor = open(argv[1], O_RDONLY);
 		if (data->file_descriptor == -1)
 		{
-			_print(data->program_name);
-			_print(": 0: Can't open ");
-			_print(argv[1]);
-			_print("\n");
-			exit(127);
+			_printe(data->program_name);
+			_printe(": 0: Can't open ");
+			_printe(argv[1]);
+			_printe("\n");
+			exit(EXIT_FAILURE);
 		}
 	}
 	data->tokens = NULL;
@@ -88,10 +84,11 @@ void inicialize_data(data_of_program *data, int argc, char *argv[], char **env)
 		data->alias_list[i] = NULL;
 	}
 }
+
 /**
- * sisifo - implements and infinite loop displaying the provided prompt
- * @prompt: prompt message to be displayed
- * @data: its a infinite loop that shows the prompt
+ * sisifo - It's an infinite loop that shows the prompt
+ * @prompt: Prompt to be printed
+ * @data: Data structure of the program
  */
 void sisifo(char *prompt, data_of_program *data)
 {
@@ -105,7 +102,7 @@ void sisifo(char *prompt, data_of_program *data)
 		if (error_code == EOF)
 		{
 			free_all_data(data);
-			exit(errno); /* exit if EOF is the fisrt character of string */
+			exit(errno);
 		}
 		if (string_len >= 1)
 		{
@@ -113,7 +110,7 @@ void sisifo(char *prompt, data_of_program *data)
 			expand_variables(data);
 			tokenize(data);
 			if (data->tokens[0])
-			{ /* execute if a text is given to prompt */
+			{
 				error_code = execute(data);
 				if (error_code != 0)
 					_print_error(error_code, data);
