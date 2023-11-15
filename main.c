@@ -32,6 +32,7 @@ int main(int argc, char *argv[], char *env[])
  */
 void handle_ctrl_c(int opr)
 {
+	(void)opr;
 	_print("\n");
 	_print(PROMPT_MSG);
 }
