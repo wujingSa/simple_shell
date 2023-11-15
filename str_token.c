@@ -1,52 +1,42 @@
 #include "shell.h"
-
 /**
- * _strtok - Custom strtok function.
- * @str: The string to tokenize.
- * @delim: The delimiter character.
- * Return: A pointer to the next token, or NULL if no more tokens.
- */
-char *_strtok(char *str, const char *delim)
+ * _strtok - split strings based on given delimiters
+ * @line: pointer to an array obtained from the gteline function.
+ * @delim: characters used to separate the string into parts.
+ * Return: A pointer to the generated token
+*/
+char *_strtok(char *line, char *delim)
 {
-	static char *nextToken;
-	char *result;
+	int j;
+	static char *str;
+	char *copystr;
 
-	if (str != NULL)
-		nextToken = str;
-
-	if (nextToken == NULL || *nextToken == '\0')
+	if (line != NULL)
+		str = line;
+	for (; *str != '\0'; str++)
+	{
+		for (j = 0; delim[j] != '\0'; j++)
+		{
+			if (*str == delim[j])
+			break;
+		}
+		if (delim[j] == '\0')
+			break;
+	}
+	copystr = str;
+	if (*copystr == '\0')
 		return (NULL);
-
-	result = nextToken;
-
-	while (*nextToken != '\0' && !_strchr(delim, *nextToken))
-		nextToken++;
-
-	while (*nextToken != '\0' && _strchr(delim, *nextToken))
+	for (; *str != '\0'; str++)
 	{
-		*nextToken = '\0';
-		nextToken++;
+		for (j = 0; delim[j] != '\0'; j++)
+		{
+			if (*str == delim[j])
+			{
+				*str = '\0';
+				str++;
+				return (copystr);
+			}
+		}
 	}
-
-	return (result);
+	return (copystr);
 }
-
-/**
- * _strchr - Custom strchr function.
- * @str: The string to search.
- * @c: The character to find.
- * Return: A pointer to the first occurrence of the character in the string,
- *         or NULL if the character is not found.
- */
-char *_strchr(char *str, char c)
-{
-	while (*str != '\0')
-	{
-		if (*str == c)
-			return (str);
-		str++;
-	}
-
-	return (NULL);
-}
-
