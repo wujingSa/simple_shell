@@ -1,53 +1,44 @@
 #include "shell.h"
 
 /**
- * tokenize - Tokenizes a string into an array of strings.
- * @str: The string to tokenize.
- * @delim: The delimiter character.
- * Return: An array of tokens.
+ * tokenize - Tokenizes the input string using a specified delimiter.
+ * @data: a pointer to the program's data
+ *
+ * Return: an array of the different parts of the string
  */
-char **tokenize(char *str, const char *delim)
+void tokenize(data_of_program *data)
 {
-	char **tokens = NULL;
-	char *token;
-	int count = 0;
+	char *delimiter = " \t";
+	int i, j, counter = 2, length;
 
-	if (str == NULL)
-		return (NULL);
-
-	tokens = malloc(sizeof(char *) * (countTokens(str, delim) + 1));
-	if (tokens == NULL)
-		return (NULL);
-
-	token = _strtok(str, delim);
-	while (token != NULL)
+	length = str_length(data->input_line);
+	if (length)
 	{
-		tokens[count] = token;
-		count++;
-		token = _strtok(NULL, delim);
+		if (data->input_line[length - 1] == '\n')
+			data->input_line[length - 1] = '\0';
 	}
 
-	tokens[count] = NULL;
-	return (tokens);
-}
-
-/**
- * countTokens - Counts the number of tokens in a string.
- * @str: The string to count tokens in.
- * @delim: The delimiter character.
- * Return: The number of tokens.
- */
-int countTokens(char *str, const char *delim)
-{
-	int count = 0;
-	char *token = _strtok(str, delim);
-
-	while (token != NULL)
+	for (i = 0; data->input_line[i]; i++)
 	{
-		count++;
-		token = _strtok(NULL, delim);
+		for (j = 0; delimiter[j]; j++)
+		{
+			if (data->input_line[i] == delimiter[j])
+				counter++;
+		}
 	}
 
-	return (count);
+	data->tokens = malloc(counter * sizeof(char *));
+	if (data->tokens == NULL)
+	{
+		perror(data->program_name);
+		exit(errno);
+	}
+	i = 0;
+	data->tokens[i] = str_duplicate(_strtok(data->input_line, delimiter));
+	data->command_name = str_duplicate(data->tokens[0]);
+	while (data->tokens[i++])
+	{
+		data->tokens[i] = str_duplicate(_strtok(NULL, delimiter));
+	}
 }
 

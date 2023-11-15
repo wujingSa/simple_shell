@@ -1,13 +1,15 @@
 #include "shell.h"
 
 /**
- * releaseRecurrentData - Free fields needed in each loop.
- * @data: Struct of the program's data.
+ * free_recurrent_data - free the fields needed each loop
+ * @data: struct of the program's data
+ *
+ * Return: Nothing
  */
-void releaseRecurrentData(data_of_program *data)
+void free_recurrent_data(data_of_program *data)
 {
 	if (data->tokens)
-		freeArrayOfPointers(data->tokens);
+		free_array_of_pointers(data->tokens);
 	if (data->input_line)
 		free(data->input_line);
 	if (data->command_name)
@@ -19,26 +21,31 @@ void releaseRecurrentData(data_of_program *data)
 }
 
 /**
- * releaseAllData - Free all fields of the data.
- * @data: Struct of the program's data.
+ * free_all_data - free all field of the data
+ * @data: struct of the program's data
+ *
+ * Return: Nothing
  */
-void releaseAllData(data_of_program *data)
+void free_all_data(data_of_program *data)
 {
 	if (data->file_descriptor != 0)
 	{
 		if (close(data->file_descriptor))
 			perror(data->program_name);
 	}
-	releaseRecurrentData(data);
-	freeArrayOfPointers(data->env);
-	freeArrayOfPointers(data->alias_list);
+	free_recurrent_data(data);
+	free_array_of_pointers(data->env);
+	free_array_of_pointers(data->alias_list);
 }
 
 /**
- * freeArrayOfPointers - Free each pointer of an array of pointers and the array itself.
- * @array: Array of pointers.
+ * free_array_of_pointers - frees each pointer of an array of pointers and the
+ * array too
+ * @array: array of pointers
+ *
+ * Return: nothing
  */
-void freeArrayOfPointers(char **array)
+void free_array_of_pointers(char **array)
 {
 	int i;
 

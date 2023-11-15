@@ -1,61 +1,57 @@
 #include "shell.h"
 
 /**
- * _print - Prints a string to the standard output.
- * @string: The input string to print.
- * Return: The number of characters printed (excluding null byte).
+ * free_recurrent_data - free the fields needed each loop
+ * @data: struct of the program's data
+ * Return: Nothing
  */
-int _print(char *string)
+void free_recurrent_data(data_of_program *data)
 {
-	int length = 0;
+	if (data->tokens)
+		free_array_of_pointers(data->tokens);
+	if (data->input_line)
+		free(data->input_line);
+	if (data->command_name)
+		free(data->command_name);
 
-	while (*string)
-	{
-		_putchar(*string);
-		string++;
-		length++;
-	}
-
-	return (length);
+	data->input_line = NULL;
+	data->command_name = NULL;
+	data->tokens = NULL;
 }
 
 /**
- * _printe - Prints a string to the standard error output.
- * @string: The input string to print.
- * Return: The number of characters printed (excluding null byte).
+ * free_all_data - free all field of the data
+ * @data: struct of the program's data
+ * Return: Nothing
  */
-int _printe(char *string)
+void free_all_data(data_of_program *data)
 {
-	int length = 0;
-
-	while (*string)
+	if (data->file_descriptor != 0)
 	{
-		_putchar_err(*string);
-		string++;
-		length++;
+		if (close(data->file_descriptor) == -1)
+			perror(data->program_name);
 	}
-
-	return (length);
+	free_recurrent_data(data);
+	free_array_of_pointers(data->env);
+	free_array_of_pointers(data->alias_list);
 }
 
 /**
- * _print_error - Prints an error message to the standard error output.
- * @errorcode: The error code.
- * @data: Pointer to the program's data.
- * Return: The number of characters printed (excluding null byte).
+ * free_array_of_pointers - frees each pointer of an array of pointers and the
+ * array too
+ * @array: array of pointers
+ * Return: nothing
  */
-int _print_error(int errorcode, data_of_program *data)
+void free_array_of_pointers(char **array)
 {
-	int length = 0;
+	int i;
 
-	length += _printe(data->program_name);
-	length += _printe(": ");
-	length += _printe(longToString(data->counter, NULL, 10));
-	length += _printe(": ");
-	length += _printe("Error: ");
-	length += _printe(get_error_message(errorcode));
-	length += _printe("\n");
+	if (array != NULL)
+	{
+		for (i = 0; array[i]; i++)
+			free(array[i]);
 
-	return (length);
+		free(array);
+	}
 }
 

@@ -1,74 +1,84 @@
 #include "shell.h"
 
 /**
- * longToString - Converts a long integer to a string.
- * @num: The long integer to convert.
- * Return: The converted string.
+ * long_to_string - converts a number to a string.
+ * @number: number to be converted to a string.
+ * @string: buffer to save the number as a string.
+ * @base: base to convert number
+ *
+ * Return: Nothing.
  */
-char *longToString(long num)
+void long_to_string(long number, char *string, int base)
 {
-	int length, i;
-	char *str;
+	int index = 0, inNegative = 0;
+	long cociente = number;
+	char letters[] = {"0123456789abcdef"};
 
-	length = countCharacters(num);
+	if (cociente == 0)
+		string[index++] = '0';
 
-	str = malloc((length + 1) * sizeof(char));
+	if (string[0] == '-')
+		inNegative = 1;
 
-	if (str == NULL)
-		return (NULL);
-
-	for (i = length - 1; i >= 0; i--)
+	while (cociente)
 	{
-		str[i] = num % 10 + '0';
-		num = num / 10;
+		if (cociente < 0)
+			string[index++] = letters[-(cociente % base)];
+		else
+			string[index++] = letters[cociente % base];
+		cociente /= base;
 	}
+	if (inNegative)
+		string[index++] = '-';
 
-	str[length] = '\0';
-
-	return (str);
+	string[index] = '\0';
+	str_reverse(string);
 }
 
 /**
- * stringToInteger - Converts a string to an integer.
- * @str: The string to convert.
- * Return: The converted integer.
+ * _atoi - convert a string to an integer.
+ * @s: pointer to the string to be converted.
+ *
+ * Return: Integer representation of the string or 0.
  */
-int stringToInteger(char *str)
+int _atoi(char *s)
 {
-	int result = 0;
 	int sign = 1;
-	int i = 0;
+	unsigned int number = 0;
 
-	if (str[0] == '-')
+	while (!('0' <= *s && *s <= '9') && *s != '\0')
 	{
-		sign = -1;
-		i = 1;
+		if (*s == '-')
+			sign *= -1;
+		if (*s == '+')
+			sign *= +1;
+		s++;
 	}
 
-	while (str[i] != '\0')
+	while ('0' <= *s && *s <= '9' && *s != '\0')
 	{
-		result = result * 10 + (str[i] - '0');
-		i++;
+		number = (number * 10) + (*s - '0');
+		s++;
 	}
-
-	return sign * result;
+	return (number * sign);
 }
 
 /**
- * countCharacters - Counts the number of characters in an integer.
- * @num: The integer.
- * Return: The number of characters.
+ * count_characters - count the occurrences of a character in a string.
+ * @string: pointer to the string.
+ * @character: string with characters to be counted.
+ *
+ * Return: Number of occurrences of the character in the string.
  */
-int countCharacters(long num)
+int count_characters(char *string, char *character)
 {
-	int count = 0;
+	int i = 0, counter = 0;
 
-	while (num != 0)
+	for (; string[i]; i++)
 	{
-		num = num / 10;
-		count++;
+		if (string[i] == character[0])
+			counter++;
 	}
-
-	return count; ()
+	return (counter);
 }
 
